@@ -22,6 +22,7 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
+    min-height: 100dvh;
     color: var(--ink);
     background:
         radial-gradient(
@@ -31,6 +32,8 @@ body {
         ),
         linear-gradient(135deg, #f3efe6 0%, #fffbf4 48%, #edf3e9 100%);
     font-family: "Cormorant Garamond", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body:not(.is-loaded) {
@@ -39,11 +42,17 @@ body:not(.is-loaded) {
 
 body.has-modal {
     overflow: hidden;
+    /* Prevent scroll chain on mobile */
+    overscroll-behavior: none;
 }
 
 img {
     display: block;
     max-width: 100%;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
 }
 
 .loader {
@@ -64,6 +73,9 @@ img {
     transition:
         opacity 700ms ease,
         visibility 700ms ease;
+    /* Fallback for old browsers */
+    height: 100vh;
+    height: 100dvh;
 }
 
 .loader::before,
@@ -465,6 +477,8 @@ h1 {
     transition:
         opacity 220ms ease,
         visibility 220ms ease;
+    height: 100vh;
+    height: 100dvh;
 }
 
 .modal[aria-hidden="true"] {
@@ -478,6 +492,7 @@ h1 {
     inset: 0;
     background: rgba(36, 35, 31, 0.52);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .modal__dialog {
@@ -485,12 +500,15 @@ h1 {
     z-index: 1;
     width: min(100%, 620px);
     max-height: min(92vh, 760px);
+    max-height: min(92dvh, 760px);
     overflow-y: auto;
     border: 1px solid rgba(185, 149, 58, 0.28);
     border-radius: 8px;
     background: var(--paper);
     box-shadow: var(--shadow);
     padding: 34px;
+    /* Prevent body scroll when scrolling modal */
+    overscroll-behavior: contain;
 }
 
 .modal__dialog h2 {
@@ -506,8 +524,8 @@ h1 {
     top: 18px;
     right: 18px;
     display: grid;
-    width: 38px;
-    height: 38px;
+    width: 44px; /* Improved touch target */
+    height: 44px; /* Improved touch target */
     place-items: center;
     border: 1px solid rgba(185, 149, 58, 0.28);
     border-radius: 50%;
@@ -516,6 +534,12 @@ h1 {
     cursor: pointer;
     font-size: 1.7rem;
     line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.modal__close:active {
+    background: var(--line);
+    transform: scale(0.96);
 }
 
 .rsvp-form {
@@ -680,7 +704,8 @@ h1 {
     }
 
     .hero__media img {
-        height: 70vh;
+        height: 65vh;
+        height: 65dvh;
         min-height: 420px;
         object-position: center top;
     }
@@ -723,15 +748,22 @@ h1 {
 
     .modal__dialog {
         width: 100%;
-        max-height: 92vh;
+        max-height: 90vh;
+        max-height: 90dvh;
         border-right: 0;
         border-bottom: 0;
         border-left: 0;
-        border-radius: 8px 8px 0 0;
-        padding: 28px 20px 24px;
+        border-radius: 20px 20px 0 0;
+        padding: 32px 24px calc(24px + env(safe-area-inset-bottom));
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
     }
 
     .form-grid {
         grid-template-columns: 1fr;
+    }
+
+    .rsvp-button {
+        height: 52px; /* Taller for mobile */
+        font-size: 0.85rem;
     }
 }
